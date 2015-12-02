@@ -45,7 +45,7 @@ $(document).ready(function() {
       url: "recipes/",
       type: "POST",
       dataType : "text", // this URL returns a plain text string, not JSON
-      data : { title: $("#nameBox").val(), recipe: $("#recipe").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked")
+      data : { title: $("#nameBox").val(), creator: localStorage["userName"],recipe: $("#recipe").val(), allergicToMilk: $("#allergicToMilk").is(":checked"), allergicToPeanut: $("#allergicToPeanut").is(":checked")
              },
       success: function( data ) {
         console.log("You received some data!", data);

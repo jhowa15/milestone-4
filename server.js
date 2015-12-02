@@ -39,15 +39,20 @@ db.serialize(function() {
   if(!exists) {
     //db.run("CREATE TABLE Stuff (thing TEXT)");
     db.run("CREATE TABLE users(userName TEXT primary key, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN)");
+    db.run("CREATE TABLE recipes(title TEXT primary key, creator TEXT, recipe TEXT, allergicToMilk BOOLEAN, allergicToPeanuts BOOLEAN)");
   }
   
-  //var stmt = db.prepare("INSERT INTO Stuff VALUES (?)");
+  //var stmt = db.prepare("INSERT INTO recipes VALUES (?, ?, ?, ?, ?)");
   //var stmt = db.prepare("INSERT INTO users VALUES(?, ?, ?)");
-  //stmt.run('Bob420', false, false);
+  //stmt.run('Pasta Primavera', 'Jeff', 'eggs and water', true, true);
   //stmt.finalize();
  
   db.each("SELECT rowid AS id, userName, allergicToMilk, allergicToPeanuts FROM users", function(err, row) {
   console.log(row.id + ": " + row.userName + " " + row.allergicToMilk + " " + row.allergicToPeanuts);
+  });
+
+  db.each("SELECT rowid AS id, title, creator, recipe, allergicToMilk, allergicToPeanuts FROM recipes", function(err, row) {
+  console.log(row.id + ": " + row.title + " " + row.creator + " " + row.recipe + " " + row.allergicToMilk + " " + row.allergicToPeanuts);
   });
 });
 
@@ -137,7 +142,8 @@ app.post('/users', function (req, res) {
   var Peanuts = postBody.allergicToPeanut;
   var Milk = postBody.allergicToMilk;
 
-  console.log(postBody);
+  console.log(Peanuts);
+  console.log(Milk);
   console.log(myName);
   // must have a name!
   if (!myName) {
@@ -169,6 +175,7 @@ app.post('/recipes', function (req, res) {
   var Peanuts = postBody.allergicToPeanut;
   var Milk = postBody.allergicToMilk;
 
+
   console.log(postBody);
   console.log(Title);
   // must have a name!
@@ -188,8 +195,8 @@ app.post('/recipes', function (req, res) {
   */
   // otherwise add the user to the database by pushing (appending)
   // postBody to the fakeDatabase list
-  var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?)");
-  stmt.run(postBody.title, postBody.recipe, postBody.allergicToPeanut, postBody.allergicToMilk, function(error){
+  var stmt = db.prepare("INSERT INTO recipes VALUES(?, ?, ?, ?, ?)");
+  stmt.run(postBody.title, postBody.creator, postBody.recipe, postBody.allergicToPeanut, postBody.allergicToMilk, function(error){
     if(error){
       console.log(error.message);
       res.send('DUPLICATE');

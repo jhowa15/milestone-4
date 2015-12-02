@@ -54,6 +54,14 @@ $(document).ready(function() {
           var k = "userName";
           var v = $("#nameBox").val();
           localStorage[k] = v; 
+
+          var kk = "allergicToPeanuts";
+          var vv = $("#allergicToPeanut").is(":checked");
+          localStorage[kk] = vv;
+
+          var kkk = "allergicToMilk";
+          var vvv = $("#allergicToMilk").is(":checked");
+          localStorage[kkk] = vvv;
           //$("#create").html($("#nameBox").val() + ", this will be where you can now search through our recipes!");
           $("#status").html("Successfully created a new user!");
           setTimeout(function(){
